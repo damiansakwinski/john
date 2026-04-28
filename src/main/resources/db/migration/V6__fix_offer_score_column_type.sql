@@ -1,0 +1,1 @@
+ALTER TABLE john_offer_score ALTER COLUMN offer_id TYPE BIGINT;
