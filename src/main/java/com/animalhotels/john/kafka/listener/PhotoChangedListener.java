@@ -32,7 +32,9 @@ public class PhotoChangedListener {
     @RetryableTopic(
         backOff = @BackOff(delay = 60000, multiplier = 2)
     )
-    @KafkaListener(topics = "outbox.OfferPhoto", groupId = "photo-classifier")
+    @KafkaListener(topics = "outbox.OfferPhoto",
+        groupId = "photo-classifier",
+        concurrency = "${kafka.listener.photo-classifier.concurrency:3}")
     public void handle(PhotoChangedEvent photoChangedEvent,
                        @Header("id") String eventId,
                        @Header("event_type") String eventType) {

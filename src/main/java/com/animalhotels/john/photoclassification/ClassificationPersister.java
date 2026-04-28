@@ -3,7 +3,7 @@ package com.animalhotels.john.photoclassification;
 import com.animalhotels.john.photoclassification.entity.OfferScore;
 import com.animalhotels.john.photoclassification.repository.EventWatermarkRepository;
 import com.animalhotels.john.photoclassification.repository.OfferScoreRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Component;
 
 @Component
