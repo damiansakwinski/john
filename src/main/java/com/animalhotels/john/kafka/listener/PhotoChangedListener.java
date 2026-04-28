@@ -38,7 +38,7 @@ public class PhotoChangedListener {
                        @Header("event_type") String eventType) {
         byte[] image = this.imageDownloader.download(URI.create(photoChangedEvent.mediaObjectUrl()));
         OfferScore offerScore = OfferScore.create(photoChangedEvent.offerId(), this.faceClassifier.containsFace(image));
-        this.classificationPersister.saveIfNewer(offerScore, Long.parseLong(eventId), eventType);
+        this.classificationPersister.saveIfLatestEvent(offerScore, Long.parseLong(eventId), eventType);
     }
 
     @DltHandler

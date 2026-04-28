@@ -18,7 +18,7 @@ public class ClassificationPersister {
     }
 
     @Transactional
-    public void saveIfNewer(OfferScore offerScore, Long eventId, String eventType) {
+    public void saveIfLatestEvent(OfferScore offerScore, Long eventId, String eventType) {
         boolean newerEventExists = 0 == this.eventWatermarkRepository.upsertWatermark(offerScore.getOfferId(), eventType, eventId);
 
         if (newerEventExists) {
