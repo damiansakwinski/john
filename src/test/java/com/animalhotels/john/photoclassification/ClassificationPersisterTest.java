@@ -22,7 +22,7 @@ class ClassificationPersisterTest {
 
     @Test
     void savesOfferScoreForNewEvent() {
-        sut.saveIfLatestEvent(OfferScore.create(9000L, true), 1L, "PhotoChanged");
+        this.sut.saveIfLatestEvent(OfferScore.create(9000L, true), 1L, "PhotoChanged");
 
         OfferScore saved = offerScoreRepository.findById(9000L).orElseThrow();
         Assertions.assertTrue(saved.getMainPhotoHasFace());
@@ -30,8 +30,8 @@ class ClassificationPersisterTest {
 
     @Test
     void updatesOfferScoreWhenNewerEventArrives() {
-        sut.saveIfLatestEvent(OfferScore.create(9001L, true), 1L, "PhotoChanged");
-        sut.saveIfLatestEvent(OfferScore.create(9001L, false), 2L, "PhotoChanged");
+        this.sut.saveIfLatestEvent(OfferScore.create(9001L, true), 1L, "PhotoChanged");
+        this.sut.saveIfLatestEvent(OfferScore.create(9001L, false), 2L, "PhotoChanged");
 
         OfferScore saved = offerScoreRepository.findById(9001L).orElseThrow();
         Assertions.assertFalse(saved.getMainPhotoHasFace());
@@ -39,8 +39,8 @@ class ClassificationPersisterTest {
 
     @Test
     void skipsOfferScoreWhenOlderEventArrives() {
-        sut.saveIfLatestEvent(OfferScore.create(9002L, true), 5L, "PhotoChanged");
-        sut.saveIfLatestEvent(OfferScore.create(9002L, false), 3L, "PhotoChanged");
+        this.sut.saveIfLatestEvent(OfferScore.create(9002L, true), 5L, "PhotoChanged");
+        this.sut.saveIfLatestEvent(OfferScore.create(9002L, false), 3L, "PhotoChanged");
 
         OfferScore saved = offerScoreRepository.findById(9002L).orElseThrow();
         Assertions.assertTrue(saved.getMainPhotoHasFace());
@@ -48,8 +48,8 @@ class ClassificationPersisterTest {
 
     @Test
     void skipsOfferScoreWhenDuplicateEventArrives() {
-        sut.saveIfLatestEvent(OfferScore.create(9003L, true), 1L, "PhotoChanged");
-        sut.saveIfLatestEvent(OfferScore.create(9003L, false), 1L, "PhotoChanged");
+        this.sut.saveIfLatestEvent(OfferScore.create(9003L, true), 1L, "PhotoChanged");
+        this.sut.saveIfLatestEvent(OfferScore.create(9003L, false), 1L, "PhotoChanged");
 
         OfferScore saved = offerScoreRepository.findById(9003L).orElseThrow();
         Assertions.assertTrue(saved.getMainPhotoHasFace());
