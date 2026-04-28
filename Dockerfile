@@ -1,12 +1,12 @@
-FROM debezium/connect:2.5
+FROM gradle:jdk25 AS build
+WORKDIR /app
+COPY gradle/ gradle/
+COPY gradlew build.gradle settings.gradle ./
+RUN gradle dependencies --no-daemon
+COPY src/ src/
+RUN gradle bootJar --no-daemon
 
-USER root
-RUN microdnf install -y gettext && microdnf clean all
-COPY config/ /app/config/
-COPY register-connector.sh /app/register-connector.sh
-COPY docker-entrypoint.sh /app/docker-entrypoint.sh
-RUN chmod +x /app/docker-entrypoint.sh /app/register-connector.sh
-
-USER 1001
-
-ENTRYPOINT ["/app/docker-entrypoint.sh"]
+FROM eclipse-temurin:25-jre
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
